@@ -59,7 +59,8 @@
       "skos": "http://www.w3.org/2004/02/skos/core#",
       "time": "http://www.w3.org/2006/time#",
       "xml": "http://www.w3.org/XML/1998/namespace/",
-      "xsd": "http://www.w3.org/2001/XMLSchema#"
+      "xsd": "http://www.w3.org/2001/XMLSchema#",
+      "none": ""
      }
     ],
     "url": "COVID19_Fallzahlen_CH_total.csv",
@@ -76,19 +77,33 @@
       "@id": "http://datalegend.net"
      }
     },
+    "dc:author": {
+        "rdf:type": [
+            {
+                "@id":"foaf:Person"
+            },
+            {
+                "@id":"prov:Person"
+            }
+        ],
+        "foad:name":["Roger Barras"]
+    },
     "dc:license": {
      "@id": "http://opendefinition.org/licenses/cc-by/"
     },
     "dc:modified": {
-     "@value": "2020-04-08",
+     "@value": "2020-04-26",
      "@type": "xsd:date"
+    },
+    "prov:wasDerivedFrom": {
+        "@id": "https://github.com/openZH/covid_19"
     },
     "tableSchema": {
      "columns": [
       {
        "@id": "https://iisg.amsterdam/COVID19_Fallzahlen_CH_total.csv/column/date",
        "name": "date",
-       "propertyUrl": "dc:modified",
+       "propertyUrl": "dc:issued",
        "titles": [
         "date"
        ],
@@ -98,13 +113,21 @@
       {
        "@id": "https://iisg.amsterdam/COVID19_Fallzahlen_CH_total.csv/column/time",
        "name": "time",
-       "propertyUrl": "time",
+       "propertyUrl": "covidcd:issuedTime",
        "titles": [
         "time"
        ],
        "dc:description": "time",
        "datatype": "xsd:time"
       },
+      {
+        "name": "issuedDateTime",
+        "virtual": true,
+        "propertyUrl": "dc:issued",
+        "csvw:value": "{date}{% if time|length %}T{time}{% else %}T00:00:00{% endif %}",
+        "dc:description": "dateTime",
+        "datatype": "dateTime"
+       },
       {
        "@id": "https://iisg.amsterdam/COVID19_Fallzahlen_CH_total.csv/column/abbreviation_canton_and_fl",
        "name": "abbreviation_canton_and_fl",
@@ -116,6 +139,15 @@
        "dc:description": "abbreviation_canton_and_fl",
        "datatype": "string"
       },
+      {
+        "name": "abbrevation",
+        "virtual": true,
+        "propertyUrl": "covidcanton:abbr",
+        "aboutUrl": "covidcanton:{abbreviation_canton_and_fl}",
+        "csvw:value": "{abbreviation_canton_and_fl}",
+        "dc:description": "Abbrevation",
+        "datatype": "string"
+       },
       {
        "@id": "https://iisg.amsterdam/COVID19_Fallzahlen_CH_total.csv/column/ncumul_tested",
        "name": "ncumul_tested",
@@ -139,7 +171,7 @@
       {
        "@id": "https://iisg.amsterdam/COVID19_Fallzahlen_CH_total.csv/column/ncumul_hosp",
        "name": "ncumul_hosp",
-       "propertyUrl": "covidcd:totalHospitalised ",
+       "propertyUrl": "covidcd:totalHospitalised",
        "titles": [
         "ncumul_hosp"
        ],
@@ -149,7 +181,7 @@
       {
        "@id": "https://iisg.amsterdam/COVID19_Fallzahlen_CH_total.csv/column/ncumul_ICU",
        "name": "ncumul_ICU",
-       "propertyUrl": "covidcd:totalInICU ",
+       "propertyUrl": "covidcd:totalInICU",
        "titles": [
         "ncumul_ICU"
        ],
